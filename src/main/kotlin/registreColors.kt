@@ -1,6 +1,6 @@
 package org.example
 
-/** Document dedicat al emmagatzematge de les dades que s'han d'usar per tal de posar colors als menús.
+/** Document kt dedicat al emmagatzematge de les dades que s'han d'usar per tal de posar colors als menús.
  * @author Raimon Izard
  */
 

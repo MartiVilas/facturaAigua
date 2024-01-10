@@ -79,13 +79,11 @@ fun llegirWord(pMessageIn: String, pMessageErrorDT: String): String {
     } while (true)
 }
 
-fun llegirChar(pMessageIn: String, pMessageErrorDT: String, pCase: Int = -1): Char {
+fun llegirChar( pCase: Int = -1): Char {
     var scanner=Scanner(System.`in`)
     var outputValue: Char
     do {
-        println(pMessageIn)
         if (!scanner.hasNext()) {
-            println("ERROR: $pMessageErrorDT")
             scanner.next()
         } else {
             outputValue = scanner.next()[0]

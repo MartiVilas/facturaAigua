@@ -7,7 +7,7 @@ import java.util.*
  * @author Raimon Izard, David Marin i Martí Vilàs.
  */
 fun llegirInt():Int {
-    var scanner=Scanner(System.`in`)
+    val scanner=Scanner(System.`in`)
     var num:Int=0
     var error = true
     do {if (scanner.hasNextInt()){
@@ -20,9 +20,8 @@ fun llegirInt():Int {
     return num
 }
 
-
 fun llegirDouble():Double {
-    var scanner=Scanner(System.`in`)
+    val scanner=Scanner(System.`in`)
     var num:Double=0.0
     var error = true
     do {if (scanner.hasNextDouble()){
@@ -36,7 +35,7 @@ fun llegirDouble():Double {
 }
 
 fun llegirFloat( pMissatgeEntrada: String, pMissatgeError: String):Float {
-    var scanner=Scanner(System.`in`)
+    val scanner=Scanner(System.`in`)
     var num:Float = 0.0f
     var error = true
     do {if (scanner.hasNextFloat()){
@@ -50,7 +49,7 @@ fun llegirFloat( pMissatgeEntrada: String, pMissatgeError: String):Float {
 }
 
 fun llegirLong():Long {
-    var scanner=Scanner(System.`in`)
+    val scanner=Scanner(System.`in`)
     var num:Long=0
     var error = true
     do {if (scanner.hasNextLong()){
@@ -64,8 +63,8 @@ fun llegirLong():Long {
 }
 
 fun llegirWord(pMessageIn: String, pMessageErrorDT: String): String {
-    var scanner=Scanner(System.`in`)
-    var outputValue: String
+    val scanner=Scanner(System.`in`)
+    val outputValue: String
     do {
         println(pMessageIn)
         if (!scanner.hasNext()) {
@@ -80,8 +79,8 @@ fun llegirWord(pMessageIn: String, pMessageErrorDT: String): String {
 }
 
 fun llegirChar( pCase: Int = -1): Char {
-    var scanner=Scanner(System.`in`)
-    var outputValue: Char
+    val scanner=Scanner(System.`in`)
+    val outputValue: Char
     do {
         if (!scanner.hasNext()) {
             scanner.next()
@@ -98,7 +97,7 @@ fun llegirChar( pCase: Int = -1): Char {
 }
 
 fun llegirStrings(pMessageIn: String, pMessageErrorDT: String): String{
-    var scanner=Scanner(System.`in`)
+    val scanner=Scanner(System.`in`)
 
     var outputValue: String = ""
     var correctDataType: Boolean = false

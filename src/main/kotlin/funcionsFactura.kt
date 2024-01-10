@@ -8,29 +8,14 @@ package org.example
  */
 
 fun despesaFixa():Int{
-    val manteniment = 6
-    return manteniment
+   if (comprobacioBoSocial()==true){
+       return 6
+   } else return 3
 }
-/*fun tipusCarnet() {
-    do {
-        var control:Boolean = true
-        println("Tens carnet de '${YELLOW_UNDERLINED}Familia nombrosa$RESET' o de '${BLUE_UNDERLINED}Familia monoparental$RESET'? Escriu 'S' per a $GREEN_BOLD_BRIGHT'Sí'$RESET i 'N' per a $RED_BOLD_BRIGHT'No'$RESET ")
-        var tipusCarnet = llegirChar().uppercaseChar()
-        if (tipusCarnet == 'S') {
-            println("En concret quin tipus de carnet tens? Escriu '${YELLOW_UNDERLINED}N$RESET' per '${YELLOW_UNDERLINED}Familia nombrosa$RESET' i '${BLUE_BOLD_BRIGHT}M$RESET' per '${BLUE_UNDERLINED}Familia monoparental$RESET'")
-            var tipusConcretCarnet = llegirChar().uppercaseChar()
-            control = false
-        } else if (tipusCarnet == 'N') {
-            println("Gracies per la informació! ${BLUE_BOLD_BRIGHT}=)$RESET ")
-            control = false
-        } else
-            println("ERROR")
-    }while (control)
-}*/
-fun preuLlitresMensuals(pMissatgeEntrada:String) : Double {
-    println(pMissatgeEntrada)
-    var lectorLlitres:Int = llegirInt()
-    var preuAigua = when {
+fun preuLlitresMensuals() : Double {
+    println("Cuants litres d'aigua has consumit aquest mes?")
+    val lectorLlitres:Int = llegirInt()
+    val preuAigua = when {
         lectorLlitres < 50 -> lectorLlitres * 0.00
         lectorLlitres <= 200 -> lectorLlitres * 0.15
         else -> lectorLlitres * 0.30
@@ -38,14 +23,17 @@ fun preuLlitresMensuals(pMissatgeEntrada:String) : Double {
 return preuAigua
 }
 
-fun comprobacioBoSocial(pMissatgeEntrada:String) : Boolean {
-    println(pMissatgeEntrada)
-    var lecturaBoSocial= llegirChar().uppercaseChar()
+fun comprobacioBoSocial() : Boolean {
+    println("Tens bo social? Escriu 'S' per a $GREEN_BOLD_BRIGHT'Sí'$RESET i 'N' per a $RED_BOLD_BRIGHT'No'$RESET")
+    val lecturaBoSocial= llegirChar().uppercaseChar()
+    if (lecturaBoSocial=='S'){
+        println("Té bo social")
+    } else println("No té bo social")
     return lecturaBoSocial =='S'
 }
 
-fun comprobacioCarnet(pMissatgeEntrada: String) : Boolean {
-    println(pMissatgeEntrada)
+fun comprobacioCarnet() : Boolean {
+    println("Tens carnet de '${YELLOW_UNDERLINED}Familia nombrosa$RESET' o de '${BLUE_UNDERLINED}Familia monoparental$RESET'? Escriu 'S' per a $GREEN_BOLD_BRIGHT'Sí'$RESET i 'N' per a $RED_BOLD_BRIGHT'No'$RESET ")
     val tieneCarnet = llegirSioNo()
     var control = false
     if (tieneCarnet) {
@@ -56,10 +44,32 @@ fun comprobacioCarnet(pMissatgeEntrada: String) : Boolean {
     }
     return control
 }
-fun calculDescompte(pBoSocial:Boolean, pCarnetFNM:Boolean){
 
+fun familiaMonoparental() : Double {
+    println("Sent part d'una familia monoparental, cuants membres de la familia sou?")
+    var descompte = 0.0
+    val cuantitatFills= llegirInt()
+    var variacioDescompte= when(cuantitatFills) {
+        0-> println("ERROR, han d'haber minim 1 integrant de la familia")
+        1-> descompte=0.1
+        2-> descompte=0.2
+        3-> descompte=0.3
+        4-> descompte=0.4
+        5-> descompte=0.5
+        else -> descompte = 0.5
+    }
+    return descompte
+}
+fun calculDescompte(pBoSocial:Boolean, pCarnetFNM:Boolean) : Double {
+    val calcDescompte = when {
+        comprobacioBoSocial() -> preuLlitresMensuals()*0.80
+        comprobacioCarnet() -> preuLlitresMensuals()*0.50
+        comprobacioCarnet() -> preuLlitresMensuals()* familiaMonoparental()
+        else -> preuLlitresMensuals()*1.0
+    }
+    return calcDescompte
 }
 fun facturaCompleta(){
-    var calculFactura= despesaFixa() + preuLlitresMensuals("Cuants litres d'aigua has consumit aquest mes?")
+    val calculFactura= despesaFixa() + preuLlitresMensuals()
     println("La teva factura es de $calculFactura")
 }

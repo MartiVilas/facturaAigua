@@ -20,20 +20,6 @@ fun llegirInt():Int {
     return num
 }
 
-fun llegirIntMissatge(pMissatgeEntrada:String, pMissatgeError: String ):Int {
-    var scanner=Scanner(System.`in`)
-    var num:Int=0
-    var error = true
-    do {if (scanner.hasNextInt()){
-        num=scanner.nextInt()
-        error=false
-    }else {
-        scanner.nextLine()
-    }
-    }while (error)
-    return num
-}
-
 
 fun llegirDouble():Double {
     var scanner=Scanner(System.`in`)

@@ -96,3 +96,23 @@ fun llegirChar( pCase: Int = -1): Char {
         }
     } while (true)
 }
+
+fun llegirStrings(pMessageIn: String, pMessageErrorDT: String): String{
+    var scanner=Scanner(System.`in`)
+
+    var outputValue: String = ""
+    var correctDataType: Boolean = false
+
+    do{
+        println(pMessageIn)
+        correctDataType = scanner.hasNext()
+
+        if (!correctDataType){
+            println(RED_BACKGROUND_BRIGHT + "ERROR: " + pMessageErrorDT + RESET)
+        }else{
+            outputValue = scanner.nextLine()
+        }
+    }while(!correctDataType)
+
+    return outputValue
+}

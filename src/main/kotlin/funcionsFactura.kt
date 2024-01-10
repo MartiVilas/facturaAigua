@@ -11,8 +11,7 @@ fun despesaFixa():Int{
     val manteniment = 6
     return manteniment
 }
-fun tipusCarnet()  {
-
+/*fun tipusCarnet() {
     do {
         var control:Boolean = true
         println("Tens carnet de '${YELLOW_UNDERLINED}Familia nombrosa$RESET' o de '${BLUE_UNDERLINED}Familia monoparental$RESET'? Escriu 'S' per a $GREEN_BOLD_BRIGHT'Sí'$RESET i 'N' per a $RED_BOLD_BRIGHT'No'$RESET ")
@@ -27,31 +26,40 @@ fun tipusCarnet()  {
         } else
             println("ERROR")
     }while (control)
-}
-fun litresMensuals() : Double {
-    println("Cuants litres d'aigua has consumit aquest mes?")
-    var lectorLlitres= llegirInt()
-    val primeraCategoria : Double = 0.00
-    val segonaCategoria : Double = 0.15
-    val tercerCategoria : Double = 0.30
-    var calculPreu : Double
-    var preuAigua : Double = 0.00
-
-    if (lectorLlitres < 50){
-        calculPreu = lectorLlitres * primeraCategoria
-    } else if (lectorLlitres >= 50 && lectorLlitres <= 200){
-        calculPreu = lectorLlitres * segonaCategoria
-    } else{
-        calculPreu = lectorLlitres * tercerCategoria
+}*/
+fun preuLlitresMensuals(pMissatgeEntrada:String) : Double {
+    println(pMissatgeEntrada)
+    var lectorLlitres:Int = llegirInt()
+    var preuAigua = when {
+        lectorLlitres < 50 -> lectorLlitres * 0.00
+        lectorLlitres <= 200 -> lectorLlitres * 0.15
+        else -> lectorLlitres * 0.30
     }
-    preuAigua  += calculPreu
-    println("El preu del teu consum d'aigua ha sigut de $preuAigua")
 return preuAigua
-
 }
-fun calculDescompte(){
+
+fun comprobacioBoSocial(pMissatgeEntrada:String) : Boolean {
+    println(pMissatgeEntrada)
+    var lecturaBoSocial= llegirChar().uppercaseChar()
+    return lecturaBoSocial =='S'
+}
+
+fun comprobacioCarnet(pMissatgeEntrada: String) : Boolean {
+    println(pMissatgeEntrada)
+    val tieneCarnet = llegirSioNo()
+    var control = false
+    if (tieneCarnet) {
+        println("Té carnet")
+        control = true
+    } else {
+        println("No té carnet.")
+    }
+    return control
+}
+fun calculDescompte(pBoSocial:Boolean, pCarnetFNM:Boolean){
 
 }
 fun facturaCompleta(){
-    var calculFactura= despesaFixa()+ litresMensuals()
+    var calculFactura= despesaFixa() + preuLlitresMensuals("Cuants litres d'aigua has consumit aquest mes?")
+    println("La teva factura es de $calculFactura")
 }

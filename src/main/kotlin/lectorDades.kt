@@ -6,7 +6,7 @@ import java.util.*
  * en les funcions dels projectes.
  * @author Raimon Izard, David Marin i Martí Vilàs.
  */
-fun llegirInt(pMissatgeEntrada:String, pMissatgeError1: String, pMissatgeError2: String, pMin: Int, pMax: Int ):Int {
+fun llegirInt():Int {
     var scanner=Scanner(System.`in`)
     var num:Int=0
     var error = true

@@ -6,12 +6,27 @@ package org.example
  * funcions que hi ha en el document Main.kt
  * @author Martí Vilàs
  */
-fun facturaCompleta(){
-    var calculFactura= despesaFixa()+ litresMensuals()
-}
+
 fun despesaFixa():Int{
     val manteniment = 6
     return manteniment
+}
+fun tipusCarnet()  {
+
+    do {
+        var control:Boolean = true
+        println("Tens carnet de '${YELLOW_UNDERLINED}Familia nombrosa$RESET' o de '${BLUE_UNDERLINED}Familia monoparental$RESET'? Escriu 'S' per a $GREEN_BOLD_BRIGHT'Sí'$RESET i 'N' per a $RED_BOLD_BRIGHT'No'$RESET ")
+        var tipusCarnet = llegirChar().uppercaseChar()
+        if (tipusCarnet == 'S') {
+            println("En concret quin tipus de carnet tens? Escriu '${YELLOW_UNDERLINED}N$RESET' per '${YELLOW_UNDERLINED}Familia nombrosa$RESET' i '${BLUE_BOLD_BRIGHT}M$RESET' per '${BLUE_UNDERLINED}Familia monoparental$RESET'")
+            var tipusConcretCarnet = llegirChar().uppercaseChar()
+            control = false
+        } else if (tipusCarnet == 'N') {
+            println("Gracies per la informació! ${BLUE_BOLD_BRIGHT}=)$RESET ")
+            control = false
+        } else
+            println("ERROR")
+    }while (control)
 }
 fun litresMensuals() : Double {
     println("Cuants litres d'aigua has consumit aquest mes?")
@@ -34,20 +49,9 @@ fun litresMensuals() : Double {
 return preuAigua
 
 }
+fun calculDescompte(){
 
-
-fun tipusCarnet(){
-    println("Tens carnet de '${YELLOW_UNDERLINED}Familia nombrosa$RESET' o de '${BLUE_UNDERLINED}Familia monoparental$RESET'? Escriu 'S' per a $GREEN_BOLD_BRIGHT'Sí'$RESET i 'N' per a $RED_BOLD_BRIGHT'No'$RESET ")
-    var tipusCarnet = llegirChar().uppercaseChar()
-    if (tipusCarnet=='S'){
-        println("En concret quin tipus de carnet tens? Escriu '${YELLOW_UNDERLINED}N$RESET' per '${YELLOW_UNDERLINED}Familia nombrosa$RESET' i '${BLUE_BOLD_BRIGHT}M$RESET' per '${BLUE_UNDERLINED}Familia monoparental$RESET'")
-        var tipusConcretCarnet= llegirChar().uppercaseChar()
-    }else if (tipusCarnet=='N'){
-        println("")
-
-    } else
-        println("ERROR")
 }
-fun calculFamliaNombrosa(){
-
+fun facturaCompleta(){
+    var calculFactura= despesaFixa()+ litresMensuals()
 }

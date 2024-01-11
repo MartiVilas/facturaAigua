@@ -18,10 +18,27 @@ fun llegirSioNo() : Boolean {
         }
     }
 }
+
+fun mrworldie ():Int {
+    val scanner=Scanner(System.`in`)
+    var num:Int= 0
+    var error = true
+    do {if (scanner.nextInt()==1||scanner.nextInt()==2){
+        num=scanner.nextInt()
+        error=false
+    }else {
+        scanner.nextLine()
+    }
+    }while (error)
+
+    return num
+
+}
 fun llegirEntre1o2(): Int {
     val scanner = Scanner(System.`in`)
     var numero: Int = 0
     var error = true
+
     do {
         if (scanner.hasNextInt()) {
             numero = scanner.nextInt()
@@ -35,6 +52,5 @@ fun llegirEntre1o2(): Int {
             scanner.nextLine()
         }
     } while (error)
-
     return numero
 }

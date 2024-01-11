@@ -2,12 +2,7 @@ package org.example
 
 fun main() {
 
+    facturaCompleta()
 
-  /* *//* val boSocial= comprobacioBoSocial()
-    val carnetSocial= comprobacioCarnet()
-    var litres = preuLlitresMensuals()
-    var calcDescompte= calculDescompte(boSocial, carnetSocial)*//*
-    var carnet= preguntaTipusCarnet()*/
-    var factura= facturaCompleta()
 
 }

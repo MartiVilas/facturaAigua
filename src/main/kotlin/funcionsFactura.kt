@@ -1,5 +1,6 @@
 package org.example
 
+import java.awt.CardLayout
 import java.time.temporal.IsoFields
 
 
@@ -9,18 +10,16 @@ import java.time.temporal.IsoFields
  * @author Martí Vilàs
  */
 
-fun despesaFixa():Int{
+fun despesaFixa(comprobacioBoSocial:Boolean):Int{
     return if (comprobacioBoSocial()){
         3
     } else 6
 }
-
 fun cuantitatLlitresMensuals(): Int {
     println("Quina és la quantitat de ${YELLOW_UNDERLINED}litres${RESET} que has gastat en aquest mes?")
     return llegirInt()
 }
-
-fun preuLlitresMensuals() : Double {
+fun preuLlitresMensuals(cuantitatLlitresMensuals:Int) : Double {
     val cuantitat = cuantitatLlitresMensuals()
 
     val preuAigua = when (cuantitat) {
@@ -42,7 +41,7 @@ fun comprobacioCarnet() : Boolean {
     }
     return control
 }
-fun preguntaTipusCarnet(): Boolean {
+fun preguntaTipusCarnet(comprobacioCarnet:Boolean,familiaMonoparental:Double,familiaNombrosa:Double): Boolean {
     println("Quin tipus de carnet tens? 1. Per marcar monoparental 2. Per marcar família nombrosa")
     val tipusCarnet = llegirEntre1o2()
 
@@ -96,21 +95,28 @@ fun comprobacioBoSocial() : Boolean {
     } else println("No té bo social")
     return lecturaBoSocial
 }
-fun calculDescompte(): Double {
-    val tipusCarnet = preguntaTipusCarnet()
+fun calculDescompte(comprobacioCarnet:Boolean, preuLlitresMensuals:Double): Double {
+    val tipusCarnet = preguntaTipusCarnet(comprobacioCarnet(), familiaNombrosa(), familiaMonoparental())
     val calcDescompte = when {
-        comprobacioBoSocial() -> preuLlitresMensuals() * 0.80
-        tipusCarnet -> preuLlitresMensuals() * 0.50
-        else -> preuLlitresMensuals() * 1.0
+        comprobacioBoSocial() -> preuLlitresMensuals(cuantitatLlitresMensuals()) * 0.80
+        tipusCarnet -> preuLlitresMensuals(cuantitatLlitresMensuals()) * 0.50
+        else -> preuLlitresMensuals(cuantitatLlitresMensuals()) * 1.0
     }
     return calcDescompte
+}
+fun calculFactura() : Double {
+    val resta= preuLlitresMensuals(cuantitatLlitresMensuals())- calculDescompte(comprobacioCarnet(), preuLlitresMensuals(cuantitatLlitresMensuals()))
+    return resta
 }
 fun facturaCompleta() {
 
     println("${WHITE_BACKGROUND_BRIGHT}${BLACK_BOLD}FACTURA DE L'AIGUA${RESET}")
-    println("DESPESA FIXA: ${RED_UNDERLINED}${despesaFixa()}${RESET}")
+    println("DESPESA FIXA: ${RED_UNDERLINED}${despesaFixa(comprobacioBoSocial())}${RESET}")
     println("CUANTITAT LLITRES GASTATS ${YELLOW_BOLD}${cuantitatLlitresMensuals()}${RESET}")
-    println("EL COST DE LLITRES HA SIGUT DE ${GREEN_BOLD}${preuLlitresMensuals()}${RESET}")
+    println("EL COST DE LLITRES HA SIGUT DE ${GREEN_BOLD}${preuLlitresMensuals(cuantitatLlitresMensuals())}${RESET}")
+    println("DESCOMPTE APLICAT A LA FACTURA DEL AIGUA ${GREEN_BOLD}${calculDescompte(comprobacioCarnet(), preuLlitresMensuals(cuantitatLlitresMensuals()))}${RESET}")
+    println("${CYAN}-----------------------------------------------------${RESET}")
+    println("${RED}TOTAL:                                         ${calculFactura()}${RESET}")
 }
 
 /*

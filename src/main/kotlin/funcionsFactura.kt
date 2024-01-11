@@ -1,8 +1,5 @@
 package org.example
 
-import java.awt.CardLayout
-import java.time.temporal.IsoFields
-
 
 /**
  * Document kt dedicat a les funcions que s'utilitzaran per que el programa funcioni correctament, son totes les
@@ -10,8 +7,8 @@ import java.time.temporal.IsoFields
  * @author Martí Vilàs
  */
 
-fun despesaFixa(comprobacioBoSocial:Boolean):Int{
-    return if (comprobacioBoSocial()){
+fun despesaFixa(boSocial:Boolean):Int{
+    return if (boSocial){
         3
     } else 6
 }
@@ -19,13 +16,12 @@ fun cuantitatLlitresMensuals(): Int {
     println("Quina és la quantitat de ${YELLOW_UNDERLINED}litres${RESET} que has gastat en aquest mes?")
     return llegirInt()
 }
-fun preuLlitresMensuals(cuantitatLlitresMensuals:Int) : Double {
-    val cuantitat = cuantitatLlitresMensuals()
+fun preuLlitresMensuals(cuantitatLlitres:Int) : Double {
 
-    val preuAigua = when (cuantitat) {
-        50 -> cuantitat * 0.00
-        in 50..200 -> cuantitat * 0.15
-        else -> cuantitat * 0.30
+    val preuAigua = when (cuantitatLlitres) {
+        50 -> cuantitatLlitres * 0.00
+        in 50..200 -> cuantitatLlitres * 0.15
+        else -> cuantitatLlitres * 0.30
     }
     return preuAigua
 }
@@ -41,28 +37,8 @@ fun comprobacioCarnet() : Boolean {
     }
     return control
 }
-fun preguntaTipusCarnet(comprobacioCarnet:Boolean,familiaMonoparental:Double,familiaNombrosa:Double): Boolean {
-    println("Quin tipus de carnet tens? 1. Per marcar monoparental 2. Per marcar família nombrosa")
-    val tipusCarnet = llegirEntre1o2()
-
-    if (comprobacioCarnet()) {
-        when (tipusCarnet) {
-            1 -> {
-                familiaMonoparental()
-            }
-            2 -> {
-                familiaNombrosa()
-            }
-            else -> {
-                println("ERROR, has de seleccionar entre 1 o 2")
-                return false
-            }
-        }
-        return true
-    }
-    return false
-}
 fun familiaNombrosa() :Double {
+    println("Ets part d'una familia nombrosa? Escriu 'S' per a $GREEN_BOLD_BRIGHT'Sí'$RESET i 'N' per a $RED_BOLD_BRIGHT'No'$RESET\"")
     var descompte = 0.0
     val familiaNombrosa = llegirSioNo()
     descompte = if (familiaNombrosa){
@@ -87,6 +63,28 @@ fun familiaMonoparental(): Double {
         else -> 0.5
     }
 }
+fun preguntaTipusCarnet(comprobacioCarnet:Boolean): Boolean {
+    println("Quin tipus de carnet tens? 1. Per marcar monoparental 2. Per marcar família nombrosa")
+    val tipusCarnet = llegirEntre1o2()
+
+    if (comprobacioCarnet) {
+        when (tipusCarnet) {
+            1 -> {
+                familiaMonoparental()
+            }
+            2 -> {
+                familiaNombrosa()
+            }
+            else -> {
+                println("ERROR, has de seleccionar entre 1 o 2")
+                return false
+            }
+        }
+        return true
+    }
+    return false
+}
+
 fun comprobacioBoSocial() : Boolean {
     println("Tens bo social? Escriu 'S' per a $GREEN_BOLD_BRIGHT'Sí'$RESET i 'N' per a $RED_BOLD_BRIGHT'No'$RESET")
     val lecturaBoSocial= llegirSioNo()
@@ -95,28 +93,38 @@ fun comprobacioBoSocial() : Boolean {
     } else println("No té bo social")
     return lecturaBoSocial
 }
-fun calculDescompte(comprobacioCarnet:Boolean, preuLlitresMensuals:Double): Double {
-    val tipusCarnet = preguntaTipusCarnet(comprobacioCarnet(), familiaNombrosa(), familiaMonoparental())
+fun calculDescompte(comprobacioCarnet:Boolean, preuLlitres:Double, familiaNombrosa: Double,familiaMonoparental: Double): Double {
+    val tipusCarnet = preguntaTipusCarnet(comprobacioCarnet)
     val calcDescompte = when {
-        comprobacioBoSocial() -> preuLlitresMensuals(cuantitatLlitresMensuals()) * 0.80
-        tipusCarnet -> preuLlitresMensuals(cuantitatLlitresMensuals()) * 0.50
-        else -> preuLlitresMensuals(cuantitatLlitresMensuals()) * 1.0
+        comprobacioCarnet -> preuLlitres * 0.80
+        tipusCarnet -> preuLlitres * 0.50
+        else -> preuLlitres * 1.0
     }
     return calcDescompte
 }
-fun calculFactura() : Double {
-    val resta= preuLlitresMensuals(cuantitatLlitresMensuals())- calculDescompte(comprobacioCarnet(), preuLlitresMensuals(cuantitatLlitresMensuals()))
+fun calculFactura(preuLlitres: Double, calculDescompte : Double) : Double {
+    val resta = preuLlitres - calculDescompte
     return resta
 }
 fun facturaCompleta() {
+    val boSocial= comprobacioBoSocial()
+    val despesaFixa= despesaFixa(boSocial)
+    val cuantitatLlitres= cuantitatLlitresMensuals()
+    val nombrosa= familiaNombrosa()
+    val monoparental= familiaMonoparental()
+    val preuLlitres= preuLlitresMensuals(cuantitatLlitres)
+    val carnet= comprobacioCarnet()
+    val descompte= calculDescompte(carnet, preuLlitres, monoparental, nombrosa)
+    val factura= calculFactura(preuLlitres,descompte)
+
 
     println("${WHITE_BACKGROUND_BRIGHT}${BLACK_BOLD}FACTURA DE L'AIGUA${RESET}")
-    println("DESPESA FIXA: ${RED_UNDERLINED}${despesaFixa(comprobacioBoSocial())}${RESET}")
-    println("CUANTITAT LLITRES GASTATS ${YELLOW_BOLD}${cuantitatLlitresMensuals()}${RESET}")
-    println("EL COST DE LLITRES HA SIGUT DE ${GREEN_BOLD}${preuLlitresMensuals(cuantitatLlitresMensuals())}${RESET}")
-    println("DESCOMPTE APLICAT A LA FACTURA DEL AIGUA ${GREEN_BOLD}${calculDescompte(comprobacioCarnet(), preuLlitresMensuals(cuantitatLlitresMensuals()))}${RESET}")
-    println("${CYAN}-----------------------------------------------------${RESET}")
-    println("${RED}TOTAL:                                         ${calculFactura()}${RESET}")
+    println("${WHITE_BACKGROUND_BRIGHT}${BLACK_BOLD}DESPESA FIXA:${RESET} ${RED_UNDERLINED}${despesaFixa}${RESET}")
+    println("${WHITE_BACKGROUND_BRIGHT}${BLACK_BOLD}CUANTITAT LLITRES GASTATS${RESET} ${YELLOW_BOLD}${cuantitatLlitres}${RESET}")
+    println("${WHITE_BACKGROUND_BRIGHT}${BLACK_BOLD}EL COST DE LLITRES HA SIGUT DE: ${RESET} ${GREEN_BOLD}${preuLlitres}${RESET}")
+    println("${WHITE_BACKGROUND_BRIGHT}${BLACK_BOLD}DESCOMPTE APLICAT A LA FACTURA DEL AIGUA${RESET} ${GREEN_BOLD}${descompte}${RESET}")
+    println("${CYAN}--------------------------------------------------${RESET}")
+    println("${RED_BOLD}TOTAL:                                         ${factura}${RESET}")
 }
 
 /*

@@ -1,5 +1,7 @@
 package org.example
 
+import java.time.temporal.IsoFields
+
 
 /**
  * Document kt dedicat a les funcions que s'utilitzaran per que el programa funcioni correctament, son totes les
@@ -8,30 +10,25 @@ package org.example
  */
 
 fun despesaFixa():Int{
-   if (comprobacioBoSocial()==true){
-       return 6
-   } else return 3
+    return if (comprobacioBoSocial()){
+        3
+    } else 6
+}
+
+fun cuantitatLlitresMensuals():Int{
+    println("Quina es la cuantitat de ${YELLOW_UNDERLINED}llitres${RESET} que has gastat en aquest mes?")
+    val cuantitat = llegirInt()
+    return cuantitat
 }
 fun preuLlitresMensuals() : Double {
     println("Cuants litres d'aigua has consumit aquest mes?")
-    val lectorLlitres:Int = llegirInt()
     val preuAigua = when {
-        lectorLlitres < 50 -> lectorLlitres * 0.00
-        lectorLlitres <= 200 -> lectorLlitres * 0.15
-        else -> lectorLlitres * 0.30
+        cuantitatLlitresMensuals()< 50 -> cuantitatLlitresMensuals() * 0.00
+        cuantitatLlitresMensuals() <= 200 -> cuantitatLlitresMensuals() * 0.15
+        else -> cuantitatLlitresMensuals() * 0.30
     }
 return preuAigua
 }
-
-fun comprobacioBoSocial() : Boolean {
-    println("Tens bo social? Escriu 'S' per a $GREEN_BOLD_BRIGHT'Sí'$RESET i 'N' per a $RED_BOLD_BRIGHT'No'$RESET")
-    val lecturaBoSocial= llegirChar().uppercaseChar()
-    if (lecturaBoSocial=='S'){
-        println("Té bo social")
-    } else println("No té bo social")
-    return lecturaBoSocial =='S'
-}
-
 fun comprobacioCarnet() : Boolean {
     println("Tens carnet de '${YELLOW_UNDERLINED}Familia nombrosa$RESET' o de '${BLUE_UNDERLINED}Familia monoparental$RESET'? Escriu 'S' per a $GREEN_BOLD_BRIGHT'Sí'$RESET i 'N' per a $RED_BOLD_BRIGHT'No'$RESET ")
     val tieneCarnet = llegirSioNo()
@@ -44,7 +41,39 @@ fun comprobacioCarnet() : Boolean {
     }
     return control
 }
+fun preguntaTipusCarnet(): Boolean {
+    println("Quin tipus de carnet tens? 1. Per marcar monoparental 2. Per marcar família nombrosa")
+    val tipusCarnet = llegirEntre1o2()
 
+    if (comprobacioCarnet()) {
+        return when (tipusCarnet) {
+            1 -> {
+                familiaMonoparental()
+                true
+            }
+
+            2 -> {
+                familiaNombrosa()
+                true
+            }
+
+            else -> {
+                println("ERROR, has de seleccionar entre 1 o 2")
+                false
+            }
+        }
+    } else {
+        return false
+    }
+}
+fun familiaNombrosa() :Double {
+    var descompte = 0.0
+    val familiaNombrosa = llegirSioNo()
+    descompte = if (familiaNombrosa){
+        0.50
+    } else 0.0
+    return descompte
+}
 fun familiaMonoparental() : Double {
     println("Sent part d'una familia monoparental, cuants membres de la familia sou?")
     var descompte = 0.0
@@ -60,16 +89,37 @@ fun familiaMonoparental() : Double {
     }
     return descompte
 }
-fun calculDescompte(pBoSocial:Boolean, pCarnetFNM:Boolean) : Double {
+fun comprobacioBoSocial() : Boolean {
+    println("Tens bo social? Escriu 'S' per a $GREEN_BOLD_BRIGHT'Sí'$RESET i 'N' per a $RED_BOLD_BRIGHT'No'$RESET")
+    val lecturaBoSocial= llegirSioNo()
+    if (lecturaBoSocial){
+        println("Té bo social")
+    } else println("No té bo social")
+    return lecturaBoSocial
+}
+fun calculDescompte() : Double {
     val calcDescompte = when {
         comprobacioBoSocial() -> preuLlitresMensuals()*0.80
-        comprobacioCarnet() -> preuLlitresMensuals()*0.50
-        comprobacioCarnet() -> preuLlitresMensuals()* familiaMonoparental()
+        preguntaTipusCarnet() -> preuLlitresMensuals()*0.50
+        preguntaTipusCarnet() -> preuLlitresMensuals()* familiaMonoparental()
         else -> preuLlitresMensuals()*1.0
     }
     return calcDescompte
 }
 fun facturaCompleta(){
-    val calculFactura= despesaFixa() + preuLlitresMensuals()
-    println("La teva factura es de $calculFactura")
+    println("${WHITE_BACKGROUND_BRIGHT}${BLACK_BOLD}FACTURA DE L'AIGUA${RESET}")
+    println("DESPESA FIXA: ${RED_UNDERLINED}${despesaFixa()}${RESET}")
+    println("CUANTITAT LLITRES GASTATS ${YELLOW_BOLD}${cuantitatLlitresMensuals()}")
+    println("EL COST DE LLITRES HA SIGUT DE ${GREEN_BOLD}${preuLlitresMensuals()}${RESET}")
+
+
 }
+
+/*
+fun mostrarDesglossament(costTotal: Double, quotaFixa: Double, litresConsumits: Int, quotaVariable: Double) {
+    println("${WHITE_BACKGROUND_BRIGHT}${BLACK_BOLD}Desglossament de la factura d'aigua:${RESET}")
+    println("${GREEN}Quota Fixa: ${RESET}$quotaFixa €")
+    println("${GREEN}Consum (${litresConsumits} litres): ${RESET}$quotaVariable €")
+    println("${YELLOW}------------------------------------------------------------- $RESET")
+    println("${RED}Import Total: ${RESET}$costTotal €")
+}*/

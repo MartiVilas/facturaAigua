@@ -18,3 +18,23 @@ fun llegirSioNo() : Boolean {
         }
     }
 }
+fun llegirEntre1o2(): Int {
+    val scanner = Scanner(System.`in`)
+    var numero: Int = 0
+    var error = true
+    do {
+        if (scanner.hasNextInt()) {
+            numero = scanner.nextInt()
+            if (numero in 1..2) {
+                error = false
+            } else {
+                println("Per favor, ingressa un valor vàlid (1 o 2).")
+            }
+        } else {
+            println("Per favor, ingressa un número enter.")
+            scanner.nextLine()
+        }
+    } while (error)
+
+    return numero
+}

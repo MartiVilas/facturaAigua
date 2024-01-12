@@ -63,11 +63,11 @@ fun familiaMonoparental(): Double {
         else -> 0.5
     }
 }
-fun preguntaTipusCarnet(comprobacioCarnet:Boolean): Boolean {
+fun preguntaTipusCarnet(carnet:Boolean): Boolean {
     println("Quin tipus de carnet tens? 1. Per marcar monoparental 2. Per marcar família nombrosa")
     val tipusCarnet = llegirEntre1o2()
 
-    if (comprobacioCarnet) {
+    if (carnet) {
         when (tipusCarnet) {
             1 -> {
                 familiaMonoparental()
@@ -94,7 +94,7 @@ fun comprobacioBoSocial() : Boolean {
     return lecturaBoSocial
 }
 fun calculDescompte(comprobacioCarnet:Boolean, preuLlitres:Double, familiaNombrosa: Double,familiaMonoparental: Double): Double {
-    val tipusCarnet = preguntaTipusCarnet(comprobacioCarnet)
+    var tipusCarnet = preguntaTipusCarnet(comprobacioCarnet)
     val calcDescompte = when {
         comprobacioCarnet -> preuLlitres * 0.80
         tipusCarnet -> preuLlitres * 0.50
@@ -119,10 +119,10 @@ fun facturaCompleta() {
 
 
     println("${WHITE_BACKGROUND_BRIGHT}${BLACK_BOLD}FACTURA DE L'AIGUA${RESET}")
-    println("${WHITE_BACKGROUND_BRIGHT}${BLACK_BOLD}DESPESA FIXA:${RESET} ${RED_UNDERLINED}${despesaFixa}${RESET}")
-    println("${WHITE_BACKGROUND_BRIGHT}${BLACK_BOLD}CUANTITAT LLITRES GASTATS${RESET} ${YELLOW_BOLD}${cuantitatLlitres}${RESET}")
-    println("${WHITE_BACKGROUND_BRIGHT}${BLACK_BOLD}EL COST DE LLITRES HA SIGUT DE: ${RESET} ${GREEN_BOLD}${preuLlitres}${RESET}")
-    println("${WHITE_BACKGROUND_BRIGHT}${BLACK_BOLD}DESCOMPTE APLICAT A LA FACTURA DEL AIGUA${RESET} ${GREEN_BOLD}${descompte}${RESET}")
+    println("DESPESA FIXA:$ ${RED_UNDERLINED}${despesaFixa}${RESET}")
+    println("CUANTITAT LLITRES GASTATS${YELLOW_BOLD}${cuantitatLlitres}${RESET}")
+    println("EL COST DE LLITRES HA SIGUT DE:  ${GREEN_BOLD}${preuLlitres}${RESET}")
+    println("DESCOMPTE APLICAT A LA FACTURA DEL AIGUA ${GREEN_BOLD}${descompte}${RESET}")
     println("${CYAN}--------------------------------------------------${RESET}")
     println("${RED_BOLD}TOTAL:                                         ${factura}${RESET}")
 }
